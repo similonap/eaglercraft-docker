@@ -1,0 +1,30 @@
+services:
+  eaglercraft:
+    build: .
+    container_name: eaglercraft-server
+    restart: unless-stopped
+
+    ports:
+      # Vanilla TCP + Eaglercraft WebSocket both use this port
+      - "${SERVER_PORT:-25565}:25565"
+
+    volumes:
+      # Persistent server state: worlds, plugin configs, logs
+      - server-data:/data
+      # Override server.properties without rebuilding the image
+      - ./config/server.properties:/config/server.properties:ro
+
+    environment:
+      # JVM heap size — set both -Xmx and -Xms to avoid resize pauses
+      MEMORY: "${MEMORY:-2G}"
+
+    # Keep stdin open so you can attach with `docker attach eaglercraft-server`
+    # and run in-game console commands
+    stdin_open: true
+    tty: true
+
+    # Give the server time to save worlds and kick players cleanly
+    stop_grace_period: 30s
+
+volumes:
+  server-data:
