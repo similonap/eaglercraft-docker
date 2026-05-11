@@ -1,7 +1,7 @@
 FROM nginx:alpine AS extractor
 
 WORKDIR /client
-COPY eaglercraft.dev_Release_1.8.8_WASM.zip eaglercraft.zip
+COPY eaglercraft.dev_Release_1.12.2_WASM.zip eaglercraft.zip
 RUN apk add --no-cache unzip && \
     unzip eaglercraft.zip && \
     rm eaglercraft.zip && \
