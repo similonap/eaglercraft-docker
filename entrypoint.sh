@@ -38,6 +38,11 @@ MEMORY="${MEMORY:-2G}"
 exec java \
     -Xmx"${MEMORY}" \
     -Xms"${MEMORY}" \
+    --add-opens java.base/java.lang=ALL-UNNAMED \
+    --add-opens java.base/java.io=ALL-UNNAMED \
+    --add-opens java.base/java.net=ALL-UNNAMED \
+    --add-opens java.base/java.util=ALL-UNNAMED \
+    --add-opens java.base/java.util.concurrent=ALL-UNNAMED \
     -XX:+UseG1GC \
     -XX:+ParallelRefProcEnabled \
     -XX:MaxGCPauseMillis=200 \

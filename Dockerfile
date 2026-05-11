@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jre-focal
+FROM eclipse-temurin:21-jre-jammy
 
 RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
 
@@ -33,7 +33,7 @@ RUN curl -fsSL -o plugins/ViaVersion.jar \
 
 # ── Auth & Skins ──────────────────────────────────────────────────────────────
 RUN curl -fsSL -o plugins/AuthMe.jar \
-        "https://github.com/AuthMe/AuthMeReloaded/releases/download/6.0.0/AuthMe-6.0.0-Spigot-Legacy.jar" && \
+        "https://github.com/AuthMe/AuthMeReloaded/releases/download/5.6.0/AuthMe-5.6.0-legacy.jar" && \
     curl -fsSL -o plugins/SkinsRestorer.jar \
         "https://github.com/SkinsRestorer/SkinsRestorer/releases/download/15.12.0/SkinsRestorer.jar"
 

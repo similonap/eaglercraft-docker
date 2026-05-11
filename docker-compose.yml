@@ -9,8 +9,8 @@ services:
       - "${SERVER_PORT:-25565}:25565"
 
     volumes:
-      # Persistent server state: worlds, plugin configs, logs
-      - server-data:/data
+      # Persistent server state: worlds, plugin configs, logs — directly in ./data/
+      - ./data:/data
       # Override server.properties without rebuilding the image
       - ./config/server.properties:/config/server.properties:ro
 
@@ -25,6 +25,3 @@ services:
 
     # Give the server time to save worlds and kick players cleanly
     stop_grace_period: 30s
-
-volumes:
-  server-data:
