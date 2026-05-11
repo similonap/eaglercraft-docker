@@ -31,6 +31,12 @@ RUN curl -fsSL -o plugins/ViaVersion.jar \
     curl -fsSL -o plugins/ViaRewindLegacySupport.jar \
         "https://github.com/ViaVersion/ViaRewind-Legacy-Support/releases/download/1.5.4/ViaRewind-Legacy-Support-1.5.4.jar"
 
+# ── WorldEdit & WorldGuard (1.12.2) ───────────────────────────────────────────
+RUN curl -fsSL -o plugins/WorldEdit.jar \
+        "https://mediafilez.forgecdn.net/files/2597/538/worldedit-bukkit-6.1.9.jar" && \
+    curl -fsSL -o plugins/WorldGuard.jar \
+        "https://mediafilez.forgecdn.net/files/2610/618/worldguard-bukkit-6.2.2.jar"
+
 # ── Auth & Skins ──────────────────────────────────────────────────────────────
 RUN curl -fsSL -o plugins/AuthMe.jar \
         "https://github.com/AuthMe/AuthMeReloaded/releases/download/5.6.0/AuthMe-5.6.0-legacy.jar" && \
