@@ -25,3 +25,22 @@ services:
 
     # Give the server time to save worlds and kick players cleanly
     stop_grace_period: 30s
+
+  client:
+    build: ./client
+    container_name: eaglercraft-client
+    restart: unless-stopped
+
+    ports:
+      # Browser-accessible port for the web client
+      - "${CLIENT_PORT:-8080}:80"
+
+    environment:
+      # Public hostname or IP address players use to reach this machine.
+      # Must be reachable from the player's browser — not a Docker-internal name.
+      # Change to your public IP or domain when hosting for others.
+      SERVER_HOST: "${SERVER_HOST:-localhost}"
+      # Must match the host port mapped for the eaglercraft service above
+      SERVER_PORT: "${SERVER_PORT:-25565}"
+      # Display name shown in the client's server list
+      SERVER_NAME: "${SERVER_NAME:-EaglercraftX}"
