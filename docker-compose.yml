@@ -62,8 +62,11 @@ services:
       SERVER_PORT: "${SERVER_PORT:-25565}"
       # Display name shown in the client's server list
       SERVER_NAME: "${SERVER_NAME:-EaglercraftX}"
+      # Set to "false" to use ws:// instead of wss:// (e.g. local dev without TLS)
+      SERVER_TLS: "${SERVER_TLS:-true}"
 
 networks:
   web:
-    external: 
-      name: traefik_default
+    # In production with Traefik, set external: true and name: traefik_default
+    # so containers join the Traefik network. Locally, leave this as-is.
+    external: false
