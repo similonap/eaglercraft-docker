@@ -34,6 +34,17 @@ INJECT="${INJECT}});"
 INJECT="${INJECT}})();"
 INJECT="${INJECT}</script>"
 
+# On mobile browsers inject EaglerMobile touch controls.
+# We use document.write so the script loads synchronously (same as @run-at document-start).
+# The isMobile() check mirrors EaglerMobile's own detection and prevents the desktop alert.
+INJECT="${INJECT}<script>"
+INJECT="${INJECT}(function(){"
+INJECT="${INJECT}var m=false;"
+INJECT="${INJECT}try{document.createEvent('TouchEvent');m=true;}catch(e){}"
+INJECT="${INJECT}if(m){document.write('<scr'+'ipt src=\"/eaglermobile.user.js\"><\\/scr'+'ipt>');}"
+INJECT="${INJECT}})();"
+INJECT="${INJECT}</script>"
+
 export INJECT
 
 # Inject immediately after <head> tag (case-insensitive via character classes).

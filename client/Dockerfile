@@ -10,6 +10,7 @@ RUN apk add --no-cache unzip && \
 
 FROM nginx:alpine
 COPY --from=extractor /client /usr/share/nginx/html
+COPY eaglermobile.user.js /usr/share/nginx/html/eaglermobile.user.js
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY configure.sh /docker-entrypoint.d/40-configure-server.sh
 RUN chmod +x /docker-entrypoint.d/40-configure-server.sh
