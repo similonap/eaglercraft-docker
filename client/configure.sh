@@ -11,7 +11,7 @@ if [ ! -f "$HTML" ]; then
     exit 0
 fi
 
-WS_URL="ws://${SERVER_HOST}:${SERVER_PORT}/"
+WS_URL="wss://${SERVER_HOST}:${SERVER_PORT}/"
 
 # Use Object.defineProperty to intercept the assignment of window.eaglercraftXOpts.
 # Injected into <head> so this runs before the game's config script.  When the

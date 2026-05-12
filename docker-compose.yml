@@ -26,6 +26,16 @@ services:
     # Give the server time to save worlds and kick players cleanly
     stop_grace_period: 30s
 
+    networks:
+      - web  # Add this 
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.eagler-ws.rule=Host(`mc.assimilate.be`) && PathPrefix(`/server`)"
+      - "traefik.http.routers.eagler-ws.entrypoints=websecure"
+      - "traefik.http.routers.eagler-ws.tls=true"
+      - "traefik.http.routers.eagler-ws.tls.certresolver=production"
+      - "traefik.http.services.eagler-ws.loadbalancer.server.port=25565"
+
   client:
     build: ./client
     container_name: eaglercraft-client
@@ -35,6 +45,14 @@ services:
       # Browser-accessible port for the web client
       - "${CLIENT_PORT:-8080}:80"
 
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mc.rule=Host(`mc.assimilate.be`)"
+      - "traefik.http.routers.mc.entrypoints=web,websecure"
+      - "traefik.http.routers.mc.tls=true"
+      - "traefik.http.routers.mc.tls.certresolver=production" # Ensure 'myresolver' matches your Traefik Let's Encrypt resolver name
+    networks:
+      - web
     environment:
       # Public hostname or IP address players use to reach this machine.
       # Must be reachable from the player's browser — not a Docker-internal name.
@@ -44,3 +62,8 @@ services:
       SERVER_PORT: "${SERVER_PORT:-25565}"
       # Display name shown in the client's server list
       SERVER_NAME: "${SERVER_NAME:-EaglercraftX}"
+
+networks:
+  web:
+    external: 
+      name: traefik_default
