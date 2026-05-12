@@ -42,9 +42,26 @@ INJECT="${INJECT}if(m){document.write('<scr'+'ipt src=\"/eaglermobile.user.js\">
 INJECT="${INJECT}})();"
 INJECT="${INJECT}</script>"
 
+# Mobile version: also auto-dismiss the built-in "Mobile Browser Detected" popup.
+# The JS client shows a dialog with a "Launch EaglercraftX" button that touch events
+# can't reach because EaglerMobile intercepts them. A MutationObserver clicks it
+# automatically as soon as it's added to the DOM.
+MOBILE_INJECT="${INJECT}"
+MOBILE_INJECT="${MOBILE_INJECT}<script>"
+MOBILE_INJECT="${MOBILE_INJECT}(function(){"
+MOBILE_INJECT="${MOBILE_INJECT}var obs=new MutationObserver(function(){"
+MOBILE_INJECT="${MOBILE_INJECT}var btn=document.querySelector('._eaglercraftX_mobile_launch_client');"
+MOBILE_INJECT="${MOBILE_INJECT}if(btn){btn.click();obs.disconnect();}"
+MOBILE_INJECT="${MOBILE_INJECT}});"
+MOBILE_INJECT="${MOBILE_INJECT}obs.observe(document.documentElement,{childList:true,subtree:true});"
+MOBILE_INJECT="${MOBILE_INJECT}})();"
+MOBILE_INJECT="${MOBILE_INJECT}</script>"
+
 export INJECT
+export MOBILE_INJECT
 
 # Inject into a single HTML file. Usage: inject_html <path>
+# Reads the INJECT environment variable.
 inject_html() {
     local html="$1"
     if [ ! -f "$html" ]; then
@@ -72,6 +89,9 @@ inject_html() {
 }
 
 inject_html /usr/share/nginx/html/index.html
+
+INJECT="$MOBILE_INJECT"
+export INJECT
 inject_html /usr/share/nginx/html/mobile/index.html
 
 echo "[client] Server: ${WS_URL}"
